@@ -1,0 +1,198 @@
+<!doctype html>
+<!-- 
+Project: Deliverable 1
+Name: William Saults
+Term: 0612
+-->
+
+<html>
+	<head>
+		<!-- Character Set Meta -->
+		<meta charset="utf-8" />
+		<meta name="keywords" content="Fossil, Shopping, Buy, Sell, Watches, Wallets, Purses, Clothing" />
+		<meta name="description" content="This app assists you in purchasing your favorite Fossil brand items." />
+		<meta name="robots" content="noindex, nofollow" />
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+
+		<meta name="HandheldFriendly" content="True" />
+		<meta name="MobileOptimized" content="320" />
+
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+		
+		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/json.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+		<!-- Page Title-->
+		<title>Fossil inc. Items</title>
+	</head>
+	<body data-role="page"> 
+		<header data-role="header" data-theme="b">
+				<h1>Fossil - Mobile</h1>
+		</header>
+		<div data-role="navbar" data-iconpos="bottom">
+				<ul>
+					<li><a href="index.html" data-icon="home" data-ajax="false">Home</a></li>
+					<li><a href="additem.html" data-icon="star" class="ui-btn-active" data-ajax="false">Add Item</a></li>
+					<li><a href="https://github.com/wsaults/MiU.git" data-icon="check">Git Repo</a></li>
+					<li><a href="https://github.com/wsaults/MiU/tree/gh-pages" data-icon="check">gh-pages</a></li>
+				</ul>
+			</div>
+		<div>
+		<div class="bgGradient"></div>
+			
+			<div data-role="content">
+				<form action="#" method="post" id="itemForm">
+				
+					<!-- fieldset & legend -->
+					<fieldset>
+						<legend></legend>
+						<h3 id="browse">Item</h3>
+						<hr />
+					<span class="inputHint">* fields are required.</span>
+					<ul id="errors"></ul>
+						<ul>
+							<li><label class="inputBox" for="itemNumber">*SKU: </label><input type="text" id="itemNumber" placeholder="ABC123" /></li>
+							<li><label class="inputBox" for="itemColor">Color: </label><input type="text" id="itemColor" placeholder="Brown" /></li>
+							<li><label class="inputBox" for="itemPrice">*Price: </label><input type="number" id="itemPrice" placeholder="12.99" /></li>
+							<li><label class="inputBox" for="quantity">*Quantity: </label><input type="range" name="slider" min="0" max="99" placeholder="0" id="quantity" /></li>
+							<li class="inputHint">Enter a quantity between 1 and 99</li>
+						</ul>
+					</fieldset>
+					<div data-role="fieldcontain">
+						<fieldset data-role="controlgroup" data-type="horizontal">
+							<legend>Date:</legend>
+						
+						    <label for="select-choice-month">Month</label>
+						<select name="select-choice-month" id="select-choice-month">
+							<option value="jan">Jan</option>
+							<option value="Feb">Feb</option>
+							<option value="Mar">Mar</option>
+							<option value="April">April</option>
+							<option value="May">May</option>
+							<option value="June">June</option>
+							<option value="July">July</option>
+							<option value="Aug">Aug</option>
+							<option value="Sept">Sept</option>
+							<option value="Oct">Oct</option>
+							<option value="Nov">Nov</option>
+							<option value="Dec">Dec</option>
+						</select>
+						
+							<label for="select-choice-day">Day</label>
+						<select name="select-choice-day" id="select-choice-day">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+							<option value="17">17</option>
+							<option value="18">18</option>
+							<option value="19">19</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+							<option value="23">23</option>
+							<option value="24">24</option>
+							<option value="25">25</option>
+							<option value="26">26</option>
+							<option value="27">27</option>
+							<option value="28">28</option>
+							<option value="29">29</option>
+							<option value="30">30</option>
+							<option value="31">31</option>
+						</select>
+						
+						<label for="select-choice-year">Year</label>
+						<select name="select-choice-year" id="select-choice-year">
+							<option value="2011">2011</option>
+							<option value="2011">2012</option>
+							<option value="2011">2013</option>
+							<option value="2011">2014</option>
+							<option value="2011">2015</option>
+						</select>
+						</fieldset>
+					</div>
+					<div data-role="fieldcontain">
+						<fieldset>
+							<legend></legend>
+							<h3 id="browse">Options</h3>
+							<hr />
+							<h3>Select any of the following:</h3>
+							<ul>
+								<!-- Check boxes -->
+								<li><label for="giftWrapped">Do you want it gift wrapped? </label><input value="Yes" type="checkbox" id="giftWrapped" /></li>
+								<li><label for="applyCouponCode">Do you want to apply a coupon code? </label><input value="Yes" type="checkbox" id="applyCouponCode" /></li>
+								<li><label for="receiveEmail">Would you like to receive offers in your inbox? </label><input value="Yes" type="checkbox" checked="checked" id="receiveEmail" /></li>
+							</ul>
+						</fieldset>
+					</div>
+					<div data-role="fieldcontain">
+						<fieldset>
+							<legend></legend>
+							<h3 id="browse">What are you?</h3>
+							<hr />
+							<ul>
+								<!-- Radio buttons -->
+								<li><label class="radio" for="human" id="h">Human </label><input value="Human" type="radio" name="verify" id="human" checked="checked" /></li>
+								<li><label class="radio" for="martian" id="m">Martian </label><input value="Martian" type="radio" name="verify" id="martian" /></li>
+								<li><label class="radio" for="robot" id="r">Robot </label><input value="Robot" type="radio" name="verify" id="robot" /></li>
+							</ul>
+							<div id="responsiveH">
+								<h4 id="browse">Are you really human?</h4>
+								<ul>
+									<li><label class="radio" for="YesHuman">Yes:</label><input value="YesHuman" name="h" type="radio" id="YesHuman" /></li>
+									<li><label class="radio" for="NoHuman">No:</label><input value="NoHuman" name="h" type="radio" id="NoHuman" /></li>
+								</ul>
+								<br>
+							</div>
+							<div id="responsiveM">
+								<h4 id="browse">What planet are you from?</h4>
+								<ul>
+									<li><label for="planet">Planet:</label><input type="text" id="planet" /></li>
+								</ul>
+								<br>
+							</div>
+							<div id="responsiveR">
+								<h4 id="browse">What OS are you running?</h4>
+								<ul>
+									<li><label for="OS">OS:</label><input type="text" id="OS" /></li>
+								</ul>
+								<br>
+							</div>
+
+							<label for="select" class="select">Choose an item:</label>
+							<select name="select" id="select">
+						      <option value="Watch">Watch</option>
+						      <option value="Wallet">Wallet</option>
+						      <option value="Purse">Purse</option>
+						   </select>
+					
+							<div id="response">	
+								<label for="textarea">How can we serve you better? </label><textarea id="textarea" cols="32" rows="5"></textarea>
+							</div>
+						</fieldset>
+					</div>
+					<!-- Submit button -->
+					<input id="submit" type="submit" value="Submit" data-theme="b" />
+					<br /><br />
+					<input id="clearAll" type="button" value="Clear All" data-theme="a" />
+					<input id="displayData" type="button" value="Display data" />			
+<!-- 					<input id="addNew" type="button" value="Add New Item" onClick="window.location.reload()" /> -->
+				</form>
+			</div>
+		</div>
+	</body>
+</html>  

@@ -1,0 +1,109 @@
+/* 
+Project: Deliverable 1
+Name: William Saults
+Term: 0612
+*/
+
+body {
+    background-repeat:repeat-y;
+    background-position:center center;
+    background-attachment:scroll;
+    background-size:100% 100%;
+}
+.ui-page {
+    background: transparent;
+}
+.ui-content{
+    background: transparent;
+    background: url("../images/subtlenet2.png");
+}
+
+.bgGradient {
+	background: url("../images/subtlenetGradient.png");
+	background-repeat:repeat-x;
+	padding: 60px 0 0 0;
+}
+
+h1 {
+	margin: 10px 20px 10px 60px;
+}
+
+h2 {
+	font-size: 16pt;
+	text-align: center;
+}
+
+p {
+	text-align: center;
+}
+
+a {
+	color: #8C4A13;
+}
+
+#newsfeed h4, a{
+	padding: 0 0 0 15px;
+	font-size: 80%;
+}
+
+.inputHint {
+	font-size: 70%;
+	color: #AAA;
+}
+
+fieldset {
+	border: none;
+}
+
+legend {
+	margin: 10px 0;
+	font-size: 16pt;
+}
+
+ul {
+	margin: 2px 0;
+	width: auto;
+	padding: 0 0 0 5px;
+}
+
+li {
+	list-style-type: none;
+	margin: 5px 0 0 0;
+}
+
+#quantityLabel {
+	width: 25%;
+}
+
+#browse {
+	margin: 5px 0 5px 5px;
+}
+
+.inputBox {
+	vertical-align: text-top;
+	display: inline-block;
+}
+
+.radio {	
+
+}
+
+textarea {
+	font-size: 16pt;
+}
+
+#response {
+	padding: 15px 0;
+}
+
+#addNew {
+	display: none;
+}
+
+#errors {
+	color: red;
+}
+
+#callToActionDesc {
+	font-size: 10px;
+}
