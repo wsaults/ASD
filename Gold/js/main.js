@@ -1,9 +1,9 @@
 // Project: Deliverable 1
 // Name: William Saults
-// Term: 0612
+// Term: 0812
 
 // Wait until the DOM is ready
-window.addEventListener("DOMContentLoaded", function() {
+$(function(){
 
 	// Global Variables
 	var verifyValue,
@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", function() {
 	var errMsg = $('errors');
 	
 	function makeCats() {
-		var forTag = document.getElementsByTagName("form")
+		var forTag = $("form")
 /* 			selectLi = $('select') */
 			;
 /*
@@ -207,6 +207,7 @@ window.addEventListener("DOMContentLoaded", function() {
 	// Links and Submit Click Events
 	var submit = $('submit');
 	submit.addEventListener("click", validate);
+	
 	var qtyListener = $('quantity');
 /* 	qtyListener.addEventListener("change", setQuantityLabel); */
 	
@@ -405,4 +406,4 @@ window.addEventListener("DOMContentLoaded", function() {
 	$('responsiveM').style.display = "none";
 	$('responsiveR').style.display = "none";
 
-}); // End "DOMContentLoaded" listener
+}); // End document.ready
