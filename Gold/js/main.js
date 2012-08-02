@@ -4,7 +4,7 @@
 
 // Wait until the DOM is ready
 $(document).ready(function() {
-  
+   
 	// Global Variables
 	var verifyValue,
 		giftValue = "No",
