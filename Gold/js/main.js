@@ -3,75 +3,44 @@
 // Term: 0812
 
 // Wait until the DOM is ready
-$(function(){
-
+$(document).ready(function() {
+  
 	// Global Variables
 	var verifyValue,
 		giftValue = "No",
 		couponValue = "No",
 		emailValue = "No"
-/* 		selectGroup = ["*Choose an item","Watch","Wallet","Purse"] */
 	;
-	
-	// getElementById Function
-	function $(x){
-		var element = document.getElementById(x);
-		return element;
-	}
-	
-	var errMsg = $('errors');
-	
-	function makeCats() {
-		var forTag = $("form")
-/* 			selectLi = $('select') */
-			;
-/*
-			var makeSelect = document.createElement('select');
-			
-			makeSelect.setAttribute("id", "groups");
-			
-		for(var i=0, j=selectGroup.length; i<j; i++) {
-			var makeOption = document.createElement('option');
-			var optText = selectGroup[i];
-			makeOption.setAttribute("value",optText);
-			makeOption.innerHTML = optText;
-			makeSelect.appendChild(makeOption);
-		}
-		
-		selectLi.appendChild(makeSelect);
-*/
-	}
 	
 	function setQuantityLabel() {
 		console.log("Ran setQty");
-		var qty = $('quantity').value;
-/* 		$('quantityLabel').value = qty; */
+		var qty = $('quantity').val();
 	}
 	
 	function getSelectedRadio() {
 		var radios = document.forms[0].verify;
-		for(var i = 0; i < radios.length; i++) {
-			if(radios[i].checked) {
-				verifyValue = radios[i].value;
+		$.each(radios, function(key, value) {
+			if(radios[key].checked) {
+				verifyValue = radios[key].value;
 			}
-		}
+		});
 	}
 	
 	function getCheckBoxValue() {
-		if($('giftWrapped').checked) {
-			giftValue = $('giftWrapped').value;
+		if($('#giftWrapped').attr('checked')) {
+			giftValue = $('#giftWrapped').val();
 		} else {
 			giftValue = "No";
 		}
 		
-		if($('applyCouponCode').checked) {
-			couponValue = $('applyCouponCode').value;
+		if($('#applyCouponCode').attr('checked')) {
+			couponValue = $('#applyCouponCode').val();
 		} else {
 			couponValue = "No";
 		}
 		
-		if($('receiveEmail').checked) {
-			emailValue = $('receiveEmail').value;
+		if($('#receiveEmail').attr('checked')) {
+			emailValue = $('#receiveEmail').val();
 		} else {
 			emailValue = "No";
 		}
@@ -80,18 +49,19 @@ $(function(){
 	function toggleControls(n) {
 		switch(n) {
 			case "on":
-				$('itemForm').style.display = "none";
-				$('clearAll').style.display = "inline";
-				$('displayData').style.display = "none";
-/* 				$('addNew').style.display = "inline"; */
+				$('#formContents').hide();
+				$('#clearAll').show();
+				$('#displayDataToggle').hide();
+				$('#backToFormToggle').show();
 				break;
 			
 			case "off":
-				$('itemForm').style.display = "block";
-				$('clearAll').style.display = "inline";
-				$('displayData').style.display = "inline";
-/* 				$('addNew').style.display = "none"; */
-				$('items').style.display = "none";
+				$('#formContents').show();
+				$('#itemForm').show();
+				$('#clearAll').show();
+				$('#displayDataToggle').show();
+				$('#items').hide();
+				$('#backToFormToggle').hide();
 				break;
 			
 			default:
@@ -111,10 +81,10 @@ $(function(){
 		getCheckBoxValue();
 		// Get all form field values.
 		var item = {};
-			item.itemNumber = ["SKU:", $('itemNumber').value];
-			item.itemColor = ["Color:", $('itemColor').value];
-			item.itemPrice = ["Price:", $('itemPrice').value];
-			item.quantity = ["Quantity:", $('quantity').value];
+			item.itemNumber = ["SKU:", $('#itemNumber').val()];
+			item.itemColor = ["Color:", $('#itemColor').val()];
+			item.itemPrice = ["Price:", $('#itemPrice').val()];
+			item.quantity = ["Quantity:", $('#quantity').val()];
 			// Checkboxes
 			item.giftWrapped = ["Gift Wrapped:", giftValue];
 			item.applyCouponCode = ["Apply Coupon Code:", couponValue];
@@ -122,8 +92,8 @@ $(function(){
 			// Radio
 			item.verify = ["Verify:", verifyValue];
 			// Select
-			item.select = ["Item:", $('select').value];
-			item.textarea = ["Feedback:", $('textarea').value];
+			item.select = ["Item:", $('#select').val()];
+			item.textarea = ["Feedback:", $('#textarea').val()];
 		
 		// Save the data into local storage
 		localStorage.setItem(id, JSON.stringify(item));
@@ -132,70 +102,47 @@ $(function(){
 		window.location.reload();	
 	}
 	
-	function validate(e) {
-		// Define the elements we want to check
-		var getGroup = $('groups');
-		var getItemNumber = $('itemNumber'); // check for some format. ex: AAA###
-		var getItemPrice = $('itemPrice'); // check for $##.## format
-		var getQuantity = $('quantity'); // make sure it is a number
-		var getTextArea = $('textarea'); // check for length 255 char
-		
+	function validate(e) {		
 		// Reset Error Messages
-		errMsg.innerHTML = "";
-/*
-		getGroup.style.border = "none";
-		getItemNumber.sytle.border = "none";
-		getItemPrice.sytle.border = "none";
-		getQuantity.sytle.border = "none";
-		getTextArea.sytle.border = "none";
-*/
+		$('#errors').html("");
 		
 		// Get Error Messages
-		var messageArray = [];
-		
-		// Group validation		
-/*
-		if(getGroup.value === "*Choose an item") {
-			var groupError = "Please choose an Item.";
- 			getGroup.style.border = "1px solid red"; 
-			messageArray.push(groupError);
-		}
-*/
+		var messageArray = []
 		
 		// Item number validation
-		if(getItemNumber.value === "") {
+		// check for some format. ex: AAA###
+		if($('#itemNumber').val() === "") {
 			var itemNumberError = "Please enter a valid item SKU";
-/* 			getItemNumber.sytle.border = "1px solid red"; */
 			messageArray.push(itemNumberError);
-			
 		}
 		
 		// Item price validation
-		if(getItemPrice.value === "") {
+		if($('#itemPrice').val() === "") {
 			var itemPriceError = "Please enter a valid item price";
-/* 			getItemPrice.sytle.border = "1px solid red"; */
 			messageArray.push(itemPriceError);
 		}
 		
 		// Item quantity validation
-		if(getQuantity.value === "") {
+		if($('#quantity').val() === "") {
 			var itemQuantityError = "Please enter a valid item quantity";
-/* 			getQuantity.sytle.border = "1px solid red"; */
 			messageArray.push(itemQuantityError);
 		}
 		// Textarea validation
-		if(getTextArea.value.length >= 255) {
-			var textAreaError = "Please enter a 256 or less characters";
-/* 			getTextArea.sytle.border = "1px solid red"; */
+		// check for length 255 char
+		if($("#textarea").val().length > 255) {
+			var textAreaError = "Please enter 255 or less characters";
 			messageArray.push(textAreaError);
 		}
 		
+		console.log("-validate- this.key " + this.key)
+		
 		if (messageArray.length >= 1) {
-			for(var i=0, j=messageArray.length; i < j; i++) {
-				var txt = document.createElement('li');
-				txt.innerHTML = messageArray[i];
-				errMsg.appendChild(txt);
-			}
+			$.each(messageArray, function(key, value) {
+				var txt = $('<li>');
+				txt.html(messageArray[key]);
+				$('#errors').append(txt);
+			});
+				
 			e.preventDefault();
 			return false;
 		} else {
@@ -204,67 +151,68 @@ $(function(){
 		}
 	}
 	
-	// Links and Submit Click Events
-	var submit = $('submit');
-	submit.addEventListener("click", validate);
-	
-	var qtyListener = $('quantity');
-/* 	qtyListener.addEventListener("change", setQuantityLabel); */
-	
-	function editItem() {
-		// Grab the data from our item in local storage.
-		var value = localStorage.getItem(this.key);
-		var item = JSON.parse(value);
-		
+	function editItem(key) {
 		// Show the form
 		toggleControls("off");
 		
+		// Grab the data from our item in local storage.
+		var value = localStorage.getItem(key);
+// 		console.log("value " + value);
+		console.log("-edit item- this.key " + key)
+		var item = $.parseJSON(value);
+		
 		// Populate the form fields with current localStorage values.
-		$('select').value = item.select[1];
-		$('itemNumber').value = item.itemNumber[1];
-		$('itemColor').value = item.itemColor[1];
-		$('itemPrice').value = item.itemPrice[1];
-		$('quantity').value = item.quantity[1];
-		$('select').value = item.select[1];
-		$('textarea').value = item.textarea[1];
+		$('#itemNumber').val(item.itemNumber[1]);		
+		$('#itemColor').val(item.itemColor[1]);
+		$('#itemPrice').val(item.itemPrice[1]);
+		$('#quantity').val(item.quantity[1]);
+		$('#select').val(item.select[1]);
+		$('#textarea').val(item.textarea[1]);
 
 		// Checkboxes
 		if (item.giftWrapped[1] === "Yes") {
-			$('giftWrapped').setAttribute("checked", "checked");
+			$('#giftWrapped').attr('checked');
 		}
 		if (item.applyCouponCode[1] === "Yes") {
-			$('applyCouponCode').setAttribute("checked", "checked");
+			$('#applyCouponCode').attr('checked');
 		}
 		if (item.receiveEmail[1] === "Yes") {
-			$('receiveEmail').setAttribute("checked", "checked");
+			$('#receiveEmail').attr('checked');
 		}
 		
 		// Radio
 		var radios = document.forms[0].verify;
-		for (var i=0; i<radios.length; i++) {
-			if (radios[i].value === "human" && item.verifyValue[1] == "human") {
-				radios[i].setAttribute("checked", "checked");
-			} else if (radios[i].value === "martian" && item.verifyValue[1] == "martian") {
-				radios[i].setAttribute("checked", "checked");
-			} else if (radios[i].value === "robot" && item.verifyValue[1] == "robot") {
-				radios[i].setAttribute("checked", "checked");
+		$.each(radios, function(i, value) {
+			if (radios[i].value === "human" 
+			&& item.verifyValue[1] == "human") {
+				radios[i].attr('checked');
+			} else if (radios[i].value === "martian" 
+			&& item.verifyValue[1] == "martian") {
+				radios[i].attr('checked');
+			} else if (radios[i].value === "robot" 
+			&& item.verifyValue[1] == "robot") {
+				radios[i].attr('checked');
 			}
-		}
-		
+		});
+			
 		// Remove the initial listener from the input 'save' button.
-		submit.removeEventListener("click", storeData);
+		$('#submit').off("click", validate);
+	
 		// Change the submit button value to edit
-		$('submit').value = "Edit Item";
-		var editSubmit = $('submit');
-		// Save the key value established in this function as a property oof the editSubmit event
-		editSubmit.addEventListener("click", validate);
-		editSubmit.key = this.key;
+		$('#submit').val("Edit Item");
+		// Save the key value established in this function as 
+		// a property oof the editSubmit event
+		$('#submit').on("click", function() {
+			storeData(key);
+		});
+		$('#submit').key = key;
 	}
 	
-	function deleteItem() {
+	function deleteItem(key) {
+		console.log("-deleteItem- key " + key);
 		var ask = confirm("Are you sure you want to delete this item?");
-		if(ask) {
-			localStorage.removeItem(this.key);
+		if(ask && key !== undefined) {
+			localStorage.removeItem(key);
 			alert("Item was deleted.");
 			window.location.reload();
 		} else {
@@ -274,27 +222,33 @@ $(function(){
 	
 	// Creates the edit and delete links for each item
 	function makeItemLinks(key, linksLi) {
-		var editLink = document.createElement('a');
+		console.log("-makeItemLinks- key " + key);
+		var editLink = $('<a>');
 		editLink.href = "#";
 		editLink.key = key;
 		var editText = "Edit Item";
-		editLink.addEventListener("click", editItem);
-		editLink.innerHTML = editText;
-		linksLi.appendChild(editLink);
+		editLink.click(function () {
+			editItem(key);
+		});
+		editLink.html(editText);
+		linksLi.append(editLink);
 		
-		var breakTag = document.createElement('br');
-		linksLi.appendChild(breakTag);
+		var breakTag = $('<br>');
+		linksLi.append(breakTag);
 		
-		var deleteLink = document.createElement('a');
+		var deleteLink = $('<a>');
 		deleteLink.href = "#";
 		deleteLink.key = key;
 		var deleteText = "Delete Item";
-		deleteLink.addEventListener("click", deleteItem);
-		deleteLink.innerHTML = deleteText;
-		linksLi.appendChild(deleteLink);
+		deleteLink.click(function () {
+			deleteItem(key);
+		});
 		
-		var hrTag = document.createElement('hr');
-		linksLi.appendChild(hrTag);
+		deleteLink.html(deleteText);
+		linksLi.append(deleteLink);
+		
+		var hrTag = $('<hr>');
+		linksLi.append(hrTag);
 	}
 	
 	function getData() {
@@ -304,51 +258,53 @@ $(function(){
 			autoFillData();
 		}
 		console.log("Getting data.");
-		document.body.appendChild(document.createElement('br'));
-   		document.body.appendChild(document.createElement('hr'));
-		var makeDiv = document.createElement('div');
-		makeDiv.setAttribute("id", "items");
-		var makeList = document.createElement('ul');
-		makeDiv.appendChild(makeList);
-		document.body.appendChild(makeDiv);
-		$('items').style.display = "block";
-		for(var i=0, len=localStorage.length; i < len; i++) {
-			var makeli = document.createElement('li');
-			var linksLi = document.createElement('li');
-			makeList.appendChild(makeli);
-			var key = localStorage.key(i);
+		$(document.body).append($('<br>'));
+   		$(document.body).append($('<hr>'));
+		var makeDiv = $('<div>');
+		makeDiv.attr("id", "items");
+		var makeList = $('<ul>');
+		makeDiv.append(makeList);
+		$(document.body).append(makeDiv);
+		$('#items').show;
+		$.each(localStorage, function(k, l) {
+			var makeli = $('<li>');
+			var linksLi = $('<li>');
+			makeList.append(makeli);
+			var key = localStorage.key(k);
 			var value = localStorage.getItem(key);
-			var obj = JSON.parse(value);
-			var makeSubList = document.createElement('ul');
-			makeli.appendChild(makeSubList);
+			var obj = $.parseJSON(value);
+			var makeSubList = $('<ul>');
+			makeli.append(makeSubList);
 			getImage(obj.select[1],makeSubList);
-			for(var n in obj) {
-				var makeSubli = document.createElement('li');
-				makeSubList.appendChild(makeSubli);
-				var optSubText = obj[n][0]+" "+obj[n][1];
-				makeSubli.innerHTML = optSubText;
-				makeSubList.appendChild(linksLi);
-			}
-			makeItemLinks(localStorage.key(i), linksLi); // Create our edit and delete links for each item
-		}
+			$.each(obj, function(j, value) {
+				var makeSubli = $('<li>');
+				makeSubList.append(makeSubli);
+				var optSubText = obj[j][0]+" "+obj[j][1];
+				makeSubli.html(optSubText);
+				makeSubList.append(linksLi);
+			});
+			// Create our edit and delete links for each item
+			makeItemLinks(localStorage.key(k), linksLi); 
+		});
 	}
 	
 	function autoFillData() {
 		// Store the JSON Object into local storage.
-		for(var n in json) {
+		$.each(json, function(key, value) {
+			console.log("alert");
 			var id = Math.floor(Math.random()*100000001);
-			localStorage.setItem(id, JSON.stringify(json[n]));
-		}
+			localStorage.setItem(id, JSON.stringify(json[key]));
+		});
 	}
 	
 	// Get the image depending on what value was selected.
 	function getImage(catName, makeSubList) {
-		var imageLi = document.createElement('li');
-		makeSubList.appendChild(imageLi);
-		var newImg = document.createElement('img');
-		var setSrc = newImg.setAttribute("src", "images/" + catName + ".png");
+		var imageLi = $('<li>');
+		makeSubList.append(imageLi);
+		var newImg = $('<img>');
+		var setSrc = newImg.attr("src", "images/" + catName + ".png");
 		console.log("The catName is: " + catName);
-		imageLi.appendChild(newImg);
+		imageLi.append(newImg);
 	}
 	
 	function clearLocalData() {
@@ -364,53 +320,45 @@ $(function(){
 	}
 	
 	function humanTest() {
-		$('responsiveH').style.display = "inline";
-		$('responsiveM').style.display = "none";
-		$('responsiveR').style.display = "none";
+		$('#responsiveH').show();
+		$('#responsiveM').hide();
+		$('#responsiveR').hide();
 	}
 	
 	function martianTest() {
-		$('responsiveH').style.display = "none";
-		$('responsiveM').style.display = "inline";
-		$('responsiveR').style.display = "none";
+		$('#responsiveH').hide();
+		$('#responsiveM').show();
+		$('#responsiveR').hide();
 	}
 	function robotTest() {
-		$('responsiveH').style.display = "none";
-		$('responsiveM').style.display = "none";
-		$('responsiveR').style.display = "inline";
+		$('#responsiveH').hide();
+		$('#responsiveM').hide();
+		$('#responsiveR').show();
 	}
 	
-	
-	
-/* 	var clearAll = $('clearAll', clearLocalData); */
-/* 	clearAll.addEventListener("click", clearLocalData); */
-	
-	$('#clearAll').click(function() {
-		alert("test");
+	$('#submit').on("click", validate);
+	$('#clearAll').click(clearLocalData);
+	$('#displayData').click(getData);
+	$('#backToForm').click(function(){
+		window.location.reload();
+		toggleControls("off");
 	});
-
-
-	var displayData = $('displayData');
-	displayData.addEventListener("click", getData);
 	
-	var isHuman = $('h', humanTest);
-	isHuman.addEventListener("click", humanTest);
-	isHuman.addEventListener("touchstart", humanTest);
+	$('#h').click(humanTest);
+	$('#h').on("touchstart", humanTest);
 	
-	var isMartian = $('m', martianTest);
-	isMartian.addEventListener("click", martianTest);
-	isMartian.addEventListener("touchstart", martianTest);
+	$('#m').click(martianTest);
+	$('#m').on("touchstart", martianTest);
 	
-	var isRobot = $('r', robotTest);
-	isRobot.addEventListener("click", robotTest);
-	isRobot.addEventListener("touchstart", robotTest);
-	
-/* 	makeCats(); */
+	$('#r').click(robotTest);
+	$('#r').on("touchstart", robotTest);
 	
 	setQuantityLabel();
 	
-	$('responsiveH').style.display = "inline";
-	$('responsiveM').style.display = "none";
-	$('responsiveR').style.display = "none";
-
-}); // End document.ready
+	$('#responsiveH').show();
+	$('#responsiveM').hide();
+	$('#responsiveR').hide();
+	
+	toggleControls("off");
+		
+});
