@@ -380,8 +380,15 @@ $(function(){
 		$('responsiveR').style.display = "inline";
 	}
 	
-	var clearAll = $('clearAll', clearLocalData);
-	clearAll.addEventListener("click", clearLocalData);
+	
+	
+/* 	var clearAll = $('clearAll', clearLocalData); */
+/* 	clearAll.addEventListener("click", clearLocalData); */
+	
+	$('#clearAll').click(function() {
+		alert("test");
+	});
+
 
 	var displayData = $('displayData');
 	displayData.addEventListener("click", getData);
