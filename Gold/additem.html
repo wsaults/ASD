@@ -185,6 +185,20 @@ Term: 0812
 							</div>
 						</fieldset>
 					</div>
+					<div data-role="fieldcontain">
+						<fieldset>
+							<legend></legend>
+							<h3 id="dataFormatting">Autofill data format</h3>
+							<hr />
+							<ul>
+								<!-- Radio buttons -->
+								<li><label class="radio" for="local" id="l">Local </label><input value="Local" type="radio" name="dataFormat" id="local" checked="checked" /></li>
+								<li><label class="radio" for="json" id="j">JSON </label><input value="JSON" type="radio" name="dataFormat" id="json" /></li>
+								<li><label class="radio" for="xml" id="x">XML </label><input value="XML" type="radio" name="dataFormat" id="xml" /></li>
+								<li><label class="radio" for="csv" id="c">CSV </label><input value="CSV" type="radio" name="dataFormat" id="csv" /></li>
+							</ul>
+						</fieldset>
+					</div>
 					<!-- Submit button -->
 					<input id="submit" type="submit" value="Submit" data-theme="b" />
 					</div>
@@ -195,9 +209,27 @@ Term: 0812
 					</div>
 					<div id="backToFormToggle">
 						<input id="backToForm" type="button" value="Back to Form"  />
+					</div>
+					<div id="loadJSONButton">
+						<input id="loadJSON" type="button" value="Load JSON" onclick="autoFillDataFromAJAX();" value="click" />
 					</div>			
 				</form>
 			</div>
 		</div>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(function() {
+					$.ajax({
+						url: "xhr/data.json",
+						type: "GET",
+						dataType: "json"
+					}).complete(function(d) {
+						storeAjaxData(d);
+/* 						console.log(d); */
+					});
+				});
+			});
+		</script>
 	</body>
 </html>  

@@ -7,6 +7,7 @@ $(document).ready(function() {
    
 	// Global Variables
 	var verifyValue,
+		verifyDataForamt = "",
 		giftValue = "No",
 		couponValue = "No",
 		emailValue = "No"
@@ -255,7 +256,18 @@ $(document).ready(function() {
 		toggleControls("on");
 		if(localStorage.length === 0) {
 			alert("There is no data in local storage. Default data has been added.");
-			autoFillData();
+			
+			if (verifyDataForamt === "json") {
+				console.log("JSON Autofill");
+				autoFillDataFromAJAX();
+			} else if (verifyDataForamt === "xml") {
+				console.log("XML Autofill");
+			} else if (verifyDataForamt === "csv") {
+				console.log("CSV Autofill");
+			} else {
+				console.log("Normal Autofill");
+				autoFillData();
+			}
 		}
 		console.log("Getting data.");
 		$(document.body).append($('<br>'));
@@ -297,6 +309,8 @@ $(document).ready(function() {
 		});
 	}
 	
+	
+	
 	// Get the image depending on what value was selected.
 	function getImage(catName, makeSubList) {
 		var imageLi = $('<li>');
@@ -336,6 +350,22 @@ $(document).ready(function() {
 		$('#responsiveR').show();
 	}
 	
+	/* AJAX data formating */
+	function localSelected() {
+		verifyDataForamt = "local"
+	}
+	
+	function jsonSelected() {
+		verifyDataForamt = "json"
+	}
+	
+	function xmlSelected() {
+		verifyDataForamt = "xml"
+	}
+	function csvSelected() {
+		verifyDataForamt = "csv"
+	}
+	
 	$('#submit').on("click", validate);
 	$('#clearAll').click(clearLocalData);
 	$('#displayData').click(getData);
@@ -353,6 +383,19 @@ $(document).ready(function() {
 	$('#r').click(robotTest);
 	$('#r').on("touchstart", robotTest);
 	
+	/* AJAX data formating */
+	$('#l').click(localSelected);
+	$('#l').on("touchstart", localSelected);
+	
+	$('#j').click(jsonSelected);
+	$('#j').on("touchstart", jsonSelected);
+	
+	$('#x').click(xmlSelected);
+	$('#x').on("touchstart", xmlSelected);
+	
+	$('#c').click(csvSelected);
+	$('#c').on("touchstart", csvSelected);
+	
 	setQuantityLabel();
 	
 	$('#responsiveH').show();
@@ -360,5 +403,28 @@ $(document).ready(function() {
 	$('#responsiveR').hide();
 	
 	toggleControls("off");
-		
 });
+
+var ajaxData;
+
+function storeAjaxData(d) {
+	ajaxData = d;
+}
+
+function autoFillDataFromAJAX() {
+	// Store the JSON Object into local storage.
+	$.each(ajaxData, function(key, value) {
+		if (key === "responseText") {
+/* 			console.log(value); */
+			var parsedJson = $.parseJSON(value);
+/* 			console.log(parsedJson); */
+			$.each(parsedJson, function(k, v) {
+				console.log(v);
+				var id = Math.floor(Math.random()*100000001);
+				localStorage.setItem(id, k);
+			});
+		}
+	});
+	console.log("autoFillDataFromAJAX complete");
+/* 	console.log(ajaxData); */
+}
