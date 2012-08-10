@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+	<item>
+		<itemSelect>Watch</itemSelect>
+		<itemNumber>ABC123</itemNumber>
+		<itemColor>Black</itemColor>
+		<itemPrice>9.99</itemPrice>
+		<quantity>1</quantity>
+		<giftWrapped>Yes</giftWrapped>
+		<applyCouponCode>No</applyCouponCode>
+		<receiveEmail>No</receiveEmail>
+		<select>Watch</select>
+		<textarea>XML 1</textarea>
+	</item>
+	<item>
+		<itemSelect>Wallet</itemSelect>
+		<itemNumber>123ABC</itemNumber>
+		<itemColor>Brown</itemColor>
+		<itemPrice>9.99</itemPrice>
+		<quantity>1</quantity>
+		<giftWrapped>No</giftWrapped>
+		<applyCouponCode>No</applyCouponCode>
+		<receiveEmail>No</receiveEmail>
+		<select>Wallet</select>
+		<textarea>XML 2</textarea>
+	</item>
+	<item>
+		<itemSelect>Purse</itemSelect>
+		<itemNumber>ReallyCoolNumber</itemNumber>
+		<itemColor>Brown</itemColor>
+		<itemPrice>9.99</itemPrice>
+		<quantity>1</quantity>
+		<giftWrapped>No</giftWrapped>
+		<applyCouponCode>No</applyCouponCode>
+		<receiveEmail>No</receiveEmail>
+		<select>Purse</select>
+		<textarea>XML 3</textarea>
+	</item>
+	<item>
+		<itemSelect>Watch</itemSelect>
+		<itemNumber>l33t</itemNumber>
+		<itemColor>Brown</itemColor>
+		<itemPrice>9.99</itemPrice>
+		<quantity>1</quantity>
+		<giftWrapped>No</giftWrapped>
+		<applyCouponCode>No</applyCouponCode>
+		<receiveEmail>No</receiveEmail>
+		<select>Watch</select>
+		<textarea>XML 4</textarea>
+	</item>
+	<item>
+		<itemSelect>Wallet</itemSelect>
+		<itemNumber>3455</itemNumber>
+		<itemColor>Tan</itemColor>
+		<itemPrice>19.99</itemPrice>
+		<quantity>1</quantity>
+		<giftWrapped>Yes</giftWrapped>
+		<applyCouponCode>No</applyCouponCode>
+		<receiveEmail>No</receiveEmail>
+		<select>Watch</select>
+		<textarea>XML 5</textarea>
+	</item>
+</items>
+	

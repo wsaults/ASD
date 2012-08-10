@@ -7,16 +7,74 @@ $(document).ready(function() {
    
 	// Global Variables
 	var verifyValue,
-		verifyDataForamt = "",
+		verifyDataFormat = "",
 		giftValue = "No",
 		couponValue = "No",
 		emailValue = "No"
 	;
 	
+	function humanTest() {
+		$('#responsiveH').show();
+		$('#responsiveM').hide();
+		$('#responsiveR').hide();
+	}
+	
+	function martianTest() {
+		$('#responsiveH').hide();
+		$('#responsiveM').show();
+		$('#responsiveR').hide();
+	}
+	function robotTest() {
+		$('#responsiveH').hide();
+		$('#responsiveM').hide();
+		$('#responsiveR').show();
+	}
+	
+	$('#submit').on("click", validate);
+	$('#clearAll').click(clearLocalData);
+	$('#displayData').click(getData);
+	$('#backToForm').click(function(){
+		window.location.reload();
+		toggleControls("off");
+	});
+	
+	$('#h').click(humanTest);
+	$('#h').on("touchstart", humanTest);
+	
+	$('#m').click(martianTest);
+	$('#m').on("touchstart", martianTest);
+	
+	$('#r').click(robotTest);
+	$('#r').on("touchstart", robotTest);
+	
+	/* AJAX data formating */
+	$('#l').click(localSelected);
+	$('#l').on("touchstart", localSelected);
+	
+	$('#j').click(jsonSelected);
+	$('#j').on("touchstart", jsonSelected);
+	
+	$('#x').click(xmlSelected);
+	$('#x').on("touchstart", xmlSelected);
+	
+	$('#c').click(csvSelected);
+	$('#c').on("touchstart", csvSelected);
+	
+	setQuantityLabel();
+	
+	$('#responsiveH').show();
+	$('#responsiveM').hide();
+	$('#responsiveR').hide();
+	
+	toggleControls("off");
+
+});
+	
 	function setQuantityLabel() {
 		console.log("Ran setQty");
 		var qty = $('quantity').val();
 	}
+
 	
 	function getSelectedRadio() {
 		var radios = document.forms[0].verify;
@@ -254,50 +312,36 @@ $(document).ready(function() {
 	
 	function getData() {
 		toggleControls("on");
-		if(localStorage.length === 0) {
-			alert("There is no data in local storage. Default data has been added.");
-			
-			if (verifyDataForamt === "json") {
-				console.log("JSON Autofill");
-				autoFillDataFromAJAX();
-			} else if (verifyDataForamt === "xml") {
-				console.log("XML Autofill");
-			} else if (verifyDataForamt === "csv") {
-				console.log("CSV Autofill");
-			} else {
+		console.log("Getting data.");
+		console.log("Data type is " + $('input:radio[name=dataFormat]:checked').val());
+		
+		verifyDataFormat = $('input:radio[name=dataFormat]:checked').val();
+		verifyDataFormat = verifyDataFormat.toLowerCase();
+		
+		if (verifyDataFormat === "xml") {
+			console.log("run getXMLAjax");
+			getXMLAjax();
+				
+		} else if (verifyDataFormat === "csv") {
+			console.log("run getCSVAjax");
+			getCSVAjax();
+				
+		}
+		
+		if (verifyDataFormat === "json") {
+			console.log("run getJSONAjax");
+			getJsonAjax();
+				
+		} else {
+			if(localStorage.length === 0) {
+// 				alert("There is no data in local storage. Default data has been added.");
 				console.log("Normal Autofill");
 				autoFillData();
+				displayJSONData();
+			} else {
+				displayJSONData();
 			}
 		}
-		console.log("Getting data.");
-		$(document.body).append($('<br>'));
-   		$(document.body).append($('<hr>'));
-		var makeDiv = $('<div>');
-		makeDiv.attr("id", "items");
-		var makeList = $('<ul>');
-		makeDiv.append(makeList);
-		$(document.body).append(makeDiv);
-		$('#items').show;
-		$.each(localStorage, function(k, l) {
-			var makeli = $('<li>');
-			var linksLi = $('<li>');
-			makeList.append(makeli);
-			var key = localStorage.key(k);
-			var value = localStorage.getItem(key);
-			var obj = $.parseJSON(value);
-			var makeSubList = $('<ul>');
-			makeli.append(makeSubList);
-			getImage(obj.select[1],makeSubList);
-			$.each(obj, function(j, value) {
-				var makeSubli = $('<li>');
-				makeSubList.append(makeSubli);
-				var optSubText = obj[j][0]+" "+obj[j][1];
-				makeSubli.html(optSubText);
-				makeSubList.append(linksLi);
-			});
-			// Create our edit and delete links for each item
-			makeItemLinks(localStorage.key(k), linksLi); 
-		});
 	}
 	
 	function autoFillData() {
@@ -307,18 +351,6 @@ $(document).ready(function() {
 			var id = Math.floor(Math.random()*100000001);
 			localStorage.setItem(id, JSON.stringify(json[key]));
 		});
-	}
-	
-	
-	
-	// Get the image depending on what value was selected.
-	function getImage(catName, makeSubList) {
-		var imageLi = $('<li>');
-		makeSubList.append(imageLi);
-		var newImg = $('<img>');
-		var setSrc = newImg.attr("src", "images/" + catName + ".png");
-		console.log("The catName is: " + catName);
-		imageLi.append(newImg);
 	}
 	
 	function clearLocalData() {
@@ -333,98 +365,245 @@ $(document).ready(function() {
 		}
 	}
 	
-	function humanTest() {
-		$('#responsiveH').show();
-		$('#responsiveM').hide();
-		$('#responsiveR').hide();
-	}
-	
-	function martianTest() {
-		$('#responsiveH').hide();
-		$('#responsiveM').show();
-		$('#responsiveR').hide();
-	}
-	function robotTest() {
-		$('#responsiveH').hide();
-		$('#responsiveM').hide();
-		$('#responsiveR').show();
-	}
 	
 	/* AJAX data formating */
 	function localSelected() {
-		verifyDataForamt = "local"
+		verifyDataFormat = "local";
 	}
 	
 	function jsonSelected() {
-		verifyDataForamt = "json"
+		verifyDataFormat = "json";
 	}
 	
 	function xmlSelected() {
-		verifyDataForamt = "xml"
+		verifyDataFormat = "xml";
 	}
 	function csvSelected() {
-		verifyDataForamt = "csv"
+		verifyDataFormat = "csv";
 	}
-	
-	$('#submit').on("click", validate);
-	$('#clearAll').click(clearLocalData);
-	$('#displayData').click(getData);
-	$('#backToForm').click(function(){
-		window.location.reload();
-		toggleControls("off");
-	});
-	
-	$('#h').click(humanTest);
-	$('#h').on("touchstart", humanTest);
-	
-	$('#m').click(martianTest);
-	$('#m').on("touchstart", martianTest);
-	
-	$('#r').click(robotTest);
-	$('#r').on("touchstart", robotTest);
-	
-	/* AJAX data formating */
-	$('#l').click(localSelected);
-	$('#l').on("touchstart", localSelected);
-	
-	$('#j').click(jsonSelected);
-	$('#j').on("touchstart", jsonSelected);
-	
-	$('#x').click(xmlSelected);
-	$('#x').on("touchstart", xmlSelected);
-	
-	$('#c').click(csvSelected);
-	$('#c').on("touchstart", csvSelected);
-	
-	setQuantityLabel();
-	
-	$('#responsiveH').show();
-	$('#responsiveM').hide();
-	$('#responsiveR').hide();
-	
-	toggleControls("off");
-});
 
-var ajaxData;
-
-function storeAjaxData(d) {
-	ajaxData = d;
+// Get the image depending on what value was selected.
+function getImage(catName, makeSubList) {
+	var imageLi = $('<li>');
+	makeSubList.append(imageLi);
+	var newImg = $('<img>');
+	var setSrc = newImg.attr("src", "images/" + catName + ".png");
+	console.log("The catName is: " + catName);
+	imageLi.append(newImg);
 }
 
-function autoFillDataFromAJAX() {
+function autoFillDataFromAJAX(ajaxData) {
 	// Store the JSON Object into local storage.
+	console.log(ajaxData);
 	$.each(ajaxData, function(key, value) {
-		if (key === "responseText") {
-/* 			console.log(value); */
-			var parsedJson = $.parseJSON(value);
-/* 			console.log(parsedJson); */
-			$.each(parsedJson, function(k, v) {
-				console.log(v);
-				var id = Math.floor(Math.random()*100000001);
-				localStorage.setItem(id, k);
-			});
-		}
+		console.log(value);
+		var id = Math.floor(Math.random()*100000001);
+		localStorage.setItem(id, JSON.stringify(value));
+		
 	});
 	console.log("autoFillDataFromAJAX complete");
-/* 	console.log(ajaxData); */
+	console.log("run displayJSONData");
+	displayJSONData();
+}
+
+// listen for display data click then do this
+function getJsonAjax(){
+   $.ajax({
+      url: "xhr/data.json",
+      type: "GET",
+      dataType: "json",
+      success: function(data){
+      	console.log("Success");
+//       	console.log(data);
+//         storeAjaxData(data);
+        autoFillDataFromAJAX(data);
+      },
+      error: function(){
+         console.log("Error.")
+      }
+   });
+}
+
+function getXMLAjax(){
+   $.ajax({
+      url: "xhr/data.xml",
+      type: "GET",
+      dataType: "xml",
+      success: function(data){
+      	console.log("Success");
+      	console.log(data);
+		displayXMLData(data);
+      },
+      error: function(){
+         console.log("Error.")
+      }     
+   });
+};
+
+function getCSVAjax(){
+   $.ajax({
+      url: "xhr/data.csv",
+      type: "GET",
+      dataType: "text",
+      success: function(data){
+		console.log("Success");
+		console.log(data);
+		displayCSVData(data);
+      },
+      error: function(){
+         console.log("Error.")
+      }     
+   });
+};
+
+function displayJSONData() {
+	console.log("JSON output");
+	$(document.body).append($('<br>'));
+	$(document.body).append($('<hr>'));
+	var makeDiv = $('<div>');
+	makeDiv.attr("id", "items");
+	var makeList = $('<ul>');
+	makeDiv.append(makeList);
+	$(document.body).append(makeDiv);
+	$('#items').show;
+	console.log(localStorage);
+	$.each(localStorage, function(k, l) {
+		var makeli = $('<li>');
+		var linksLi = $('<li>');
+		makeList.append(makeli);
+		var key = localStorage.key(k);
+		var value = localStorage.getItem(key);
+		console.log(key);
+		console.log(value);
+		var obj = $.parseJSON(value);
+		console.log(obj);
+		var makeSubList = $('<ul>');
+		makeli.append(makeSubList);
+		getImage(obj.select[1],makeSubList);
+		$.each(obj, function(j, value) {
+			var makeSubli = $('<li>');
+			makeSubList.append(makeSubli);
+			var optSubText = obj[j][0]+" "+obj[j][1];
+			makeSubli.html(optSubText);
+			makeSubList.append(linksLi);
+		});
+		// Create our edit and delete links for each item
+		makeItemLinks(localStorage.key(k), linksLi); 
+	});
+}
+
+function displayXMLData(xml) {
+	console.log("XML output");
+	var obj = $(xml);
+	obj.find("item").each(function(){
+		var item = $(this);
+		console.log(item);
+		var itemSelect = $(item.find("itemSelect"));
+		var itemNumber = $(item.find("itemNumber"));
+		var itemColor = $(item.find("itemColor"));
+		var itemPrice = $(item.find("itemPrice"));
+		var quantity = $(item.find("quantity"));
+		var giftWrapped = $(item.find("giftWrapped"));
+		var applyCouponCode = $(item.find("applyCouponCode"));
+		var receiveEmail = $(item.find("receiveEmail"));
+		var select = $(item.find("select"));
+		var textarea = $(item.find("textarea"));
+		      
+		$(document.body).append($('<br>'));
+		$(document.body).append($('<hr>'));
+		var makeDiv = $('<div>');
+		makeDiv.attr("id", "items");
+		var makeList = $('<ul>');
+		makeDiv.append(makeList);
+		$(document.body).append(makeDiv);
+		$('#items').show;
+		
+		var makeli = $('<li>');
+		var linksLi = $('<li>');
+		makeList.append(makeli);
+		var makeSubList = $('<ul>');
+		makeli.append(makeSubList);
+		
+		getImage(itemSelect.text(),makeSubList);
+		
+		var makeSubli = $('<li>').text(function() { return "Item: " + itemSelect.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "SKU: " + itemNumber.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Color: " + itemColor.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Price: " + itemPrice.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Quantity: " + quantity.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Gift Wrapped: " + giftWrapped.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Apply Coupon Code: " + applyCouponCode.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Receive Email: " + receiveEmail.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Item: " + select.text(); });
+		makeSubList.append(makeSubli);
+		makeSubli = $('<li>').text(function() { return "Feedback: " + textarea.text(); });
+		makeSubList.append(makeSubli);
+		
+	});
+		
+	console.log("end displayXMLData");
+}
+
+function displayCSVData(csv) {
+	var lines = csv.split("\r");
+	console.log(lines);
+	// The lines variable is now an array of lines of text.
+	console.log(lines.length);
+	for (var lineNum = 0; lineNum < lines.length; lineNum++) {
+		// Get the current line/row
+		var row = lines[lineNum];
+		var columns = row.split(",");
+		// The columns variable is now an array.
+		
+		if (lineNum > 0) {
+			console.log(columns);
+			
+			$(document.body).append($('<br>'));
+			$(document.body).append($('<hr>'));
+			var makeDiv = $('<div>');
+			makeDiv.attr("id", "items");
+			var makeList = $('<ul>');
+			makeDiv.append(makeList);
+			$(document.body).append(makeDiv);
+			$('#items').show;
+			
+			var makeli = $('<li>');
+			var linksLi = $('<li>');
+			makeList.append(makeli);
+			var makeSubList = $('<ul>');
+			makeli.append(makeSubList);
+			
+			getImage(columns[0],makeSubList);
+			
+			var makeSubli = $('<li>').text(function() { return "Item: " + columns[0]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "SKU: " + columns[1]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Color: " + columns[2]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Price: " + columns[3]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Quantity: " + columns[4]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Gift Wrapped: " + columns[5]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Apply Coupon Code: " + columns[6]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Receive Email: " + columns[7]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Item: " + columns[8]; });
+			makeSubList.append(makeSubli);
+			makeSubli = $('<li>').text(function() { return "Feedback: " + columns[9]; });
+			makeSubList.append(makeSubli);
+		}
+	}
+	
 }

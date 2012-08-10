@@ -12,7 +12,6 @@ var json = {
 		"giftWrapped": ["Gift Wrapped:","Yes"],
 		"applyCouponCode": ["Apply Coupon Code:","No"],
 		"receiveEmail": ["Receive Email:","No"],
-//Radio "verify"["Verify:","1"],
 		"select": ["Item:","Watch"],
 		"textarea": ["Feedback:","I love Fossil!"]
 	},
@@ -26,7 +25,6 @@ var json = {
 		"giftWrapped": ["Gift Wrapped:","No"],
 		"applyCouponCode": ["Apply Coupon Code:","No"],
 		"receiveEmail": ["Receive Email:","No"],
-//Radio "verify"["Verify:","1"],
 		"select": ["Item:","Wallet"],
 		"textarea": ["Feedback:","I also love Fossil!"]
 	}
