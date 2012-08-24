@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Item Details</title>
+  </head>
+  <body>
+	<div data-role="page" id="item">
+		<header data-role="header" data-theme="b">
+				<h1>Item Details</h1>
+		</header>
+		<div data-role="navbar" data-iconpos="bottom">
+			<ul>
+				<li><a href="index.html" data-icon="home" data-ajax="false" class="ui-btn-active">Home</a></li>
+				<li><a href="https://github.com/wsaults/ASD.git" data-icon="check">Git Repo</a></li>
+				<li><a href="https://github.com/wsaults/ASD/tree/gh-pages" data-icon="check">gh-pages</a></li>
+			</ul>
+		</div>
+    	<div data-role="content" class="ui-body-c data-inset="true" data-theme="c">
+    		<ul id="itemDetails" data-role="listview">
+    		</ul>
+    		
+    		<br />
+    		<div data-role="controlgroup" data-type="horizontal">
+    			<a href="#" data-role="button" data-icon="plus" id="create">Create</a>
+    			<a href="#" data-role="button" data-icon="gear" id="edit">Edit</a>
+    			<a href="#" data-role="button" data-icon="delete" id="delete">Delete</a>
+    		</div>	
+    	</div>
+    </div>
+  </body>
+</html>
